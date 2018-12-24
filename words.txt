@@ -1,0 +1,17 @@
+animal	whale
+animal	dog
+animal	fox
+animal	cat
+animal	bird
+animal	kangaroo
+animal	elephant
+animal	bird
+animal	fish
+animal	lion
+car	alfa romeo
+car	volkswagen
+car	fiat
+car	volvo
+city	Pecs
+city	Budapest
+city	Miskolc

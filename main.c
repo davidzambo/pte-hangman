@@ -8,11 +8,54 @@
 #include "lib/headers/categories.h"
 #include "lib/headers/createmenuitem.h"
 #include "lib/headers/selectcategory.h"
+#include "lib/headers/renderHang.h"
 
-void playAGame(char *word)
+
+int playAGame(char *word, char *letterTips, unsigned int countOfFails)
 {
-    printf("\nEz itten a szó! : %s", word);
+    int lengthOfWord = (int) strlen(word), i = 0, isInWord = 0;
+    char thisTip;
+
+    MENUITEM *menu = renderHang(countOfFails);
+    MENUITEM *first = menu;
+    MENUITEM *last = menu;
+
+    while (last->next != NULL) {
+        last = last->next;
+    }
+    last->next = createMenuItem(word);
+
+    renderView(first);
+    thisTip = (char) getchar();
     getchar();
+
+    for (i = 0; i < lengthOfWord; i++) {
+        printf("ez :  %c ", word[i]);
+        if (thisTip == word[i]) {
+            int letterTipsLength = (int) strlen(letterTips);
+            letterTips = (char *) realloc(letterTips, (letterTipsLength + 1) * sizeof(char));
+            letterTips[letterTipsLength] = thisTip;
+            isInWord = 1;
+            break;
+        }
+    }
+
+    if (isInWord == 0) {
+        countOfFails++;
+        printf("\n Nope!!!");
+
+    } else {
+        printf("\n In WORD!!!");
+    }
+    printf("\ntips: %s", letterTips);
+    getchar();
+    getchar();
+
+    playAGame(word, letterTips, countOfFails);
+
+    if (countOfFails == 10) {
+        return 0;
+    }
 }
 
 int main(int argCounter, char** args)
@@ -92,6 +135,7 @@ int main(int argCounter, char** args)
     menu->next = createMenuItem("SELECT AN ACTION AND PRESS <ENTER>!");
 
     MENUITEM *this = first;
+
     while(1) {
         renderView(this);
 
@@ -109,8 +153,8 @@ int main(int argCounter, char** args)
             }
             else {
                 char *wordToPlayWith = selectAWordFromCategory(category, wordList, length);
-                playAGame(wordToPlayWith);
-                printf("\n The word is %s", wordToPlayWith);
+                char *letterTips = '\t';
+                playAGame(wordToPlayWith, letterTips, 0);
                 getchar();
                 getchar();
             }

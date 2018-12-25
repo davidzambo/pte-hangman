@@ -16,7 +16,8 @@ char selectCategory()
 
     system("clear");
 
-    MENUITEM *menu = createMenuItem("========== SELECT A CATEGORY ==========");
+    MENUITEM *menu = createMenuItem("==================== SELECT A CATEGORY ====================");
+
     MENUITEM *first = menu;
     menu->next = createMenuItem(" ");
 

@@ -11,10 +11,14 @@
 #include "lib/headers/renderHang.h"
 
 
-int playAGame(char *word, char *letterTips, unsigned int countOfFails)
+int playAGame(char *word, char *letterGuesses, unsigned int countOfFails)
 {
-    int lengthOfWord = (int) strlen(word), i = 0, isInWord = 0;
-    char thisTip;
+    int lengthOfWord = (int) strlen(word),
+        countOfLetterGuesses = (int) strlen(letterGuesses),
+        i = 0,
+        isInWord = 0,
+        isLetterInAlreadyGuessedLetters = 0;
+    char thisGuess;
 
     MENUITEM *menu = renderHang(countOfFails);
     MENUITEM *first = menu;
@@ -25,37 +29,68 @@ int playAGame(char *word, char *letterTips, unsigned int countOfFails)
     }
     last->next = createMenuItem(word);
 
-    renderView(first);
-    thisTip = (char) getchar();
-    getchar();
+    /*
+     * If we have already guessed letters, let show it to the user
+     */
+    if (countOfLetterGuesses > 0) {
+        last = last->next;
+        last->next = createMenuItem(" ");
+        last = last->next;
+        last->next = createMenuItem("Already guessed letters: ");
+        last = last->next;
+        char letterList[40];
+        for (i = 0; i < countOfLetterGuesses; i++) {
+            letterList[2*i] = letterGuesses[i];
+            /*
+             * A list last element doesn't followed by ','
+             */
+            if (i < countOfLetterGuesses - 1) {
+                letterList[2*i + 1] = ',';
+            }
+        }
+        letterList[2*i-1] = '\0';
+        last->next = createMenuItem(letterList);
+    }
 
-    for (i = 0; i < lengthOfWord; i++) {
-        printf("ez :  %c ", word[i]);
-        if (thisTip == word[i]) {
-            int letterTipsLength = (int) strlen(letterTips);
-            letterTips = (char *) realloc(letterTips, (letterTipsLength + 1) * sizeof(char));
-            letterTips[letterTipsLength] = thisTip;
-            isInWord = 1;
+    renderView(first);
+//    getchar();
+//    thisGuess = (char) getchar();
+    scanf(" %1s[^\n]", &thisGuess);
+//    getchar();
+
+    /*
+     * Check, if actual guess is a char, that has been already tipped
+     * before, and it was a successful tip
+     */
+    for (i = 0; i < countOfLetterGuesses; i++) {
+        if (thisGuess == letterGuesses[i]) {
+            isLetterInAlreadyGuessedLetters = 1;
             break;
         }
     }
 
-    if (isInWord == 0) {
-        countOfFails++;
-        printf("\n Nope!!!");
+    if (isLetterInAlreadyGuessedLetters == 0) {
+        letterGuesses = (char *) realloc(letterGuesses, (countOfLetterGuesses + 2) * sizeof(char));
+        letterGuesses[countOfLetterGuesses] = thisGuess;
+        letterGuesses[countOfLetterGuesses + 1] = '\0';
 
-    } else {
-        printf("\n In WORD!!!");
+        for (i = 0; i < lengthOfWord; i++) {
+            if (thisGuess == word[i]) {
+                isInWord = 1;
+                break;
+            }
+        }
+
+        if (isInWord == 0) {
+            countOfFails++;
+        }
     }
-    printf("\ntips: %s", letterTips);
-    getchar();
-    getchar();
 
-    playAGame(word, letterTips, countOfFails);
-
-    if (countOfFails == 10) {
+    if (countOfFails == 11) {
         return 0;
     }
+
+    playAGame(word, letterGuesses, countOfFails);
 }
 
 int main(int argCounter, char** args)
@@ -104,7 +139,6 @@ int main(int argCounter, char** args)
     for (i = 0; i < length; i++) {
         wordList[i] = malloc(sizeof(WORD));
     }
-
     // Jump back to the beginning of the file
     rewind(db);
 
@@ -114,7 +148,7 @@ int main(int argCounter, char** args)
      * Generate the base manu for the game
      */
     MENUITEM *menu;
-    menu = createMenuItem("=============== HANGMAN ===============");
+    menu = createMenuItem("========================= HANGMAN =========================");
     MENUITEM *first = menu;
     menu->next = createMenuItem(" ");
     menu = menu->next;
@@ -134,7 +168,27 @@ int main(int argCounter, char** args)
     menu = menu->next;
     menu->next = createMenuItem("SELECT AN ACTION AND PRESS <ENTER>!");
 
-    MENUITEM *this = first;
+    MENUITEM *this = renderHang(0);
+    renderView(this);
+    this = renderHang(1);
+    renderView(this);
+    this = renderHang(2);
+    renderView(this);
+    this = renderHang(3);
+    renderView(this);
+    this = renderHang(4);
+    renderView(this);
+    this = renderHang(5);
+    renderView(this);
+    this = renderHang(6);
+    renderView(this);
+    this = renderHang(7);
+    renderView(this);
+    this = renderHang(8);
+    renderView(this);
+    this = renderHang(9);
+    renderView(this);
+    this = renderHang(10);
 
     while(1) {
         renderView(this);
@@ -153,10 +207,10 @@ int main(int argCounter, char** args)
             }
             else {
                 char *wordToPlayWith = selectAWordFromCategory(category, wordList, length);
-                char *letterTips = '\t';
-                playAGame(wordToPlayWith, letterTips, 0);
-                getchar();
-                getchar();
+                char *letterGuesses = (char *) malloc(sizeof(char));;
+                letterGuesses[0] = '\0';
+
+                playAGame(wordToPlayWith, letterGuesses, 0);
             }
         }
     }

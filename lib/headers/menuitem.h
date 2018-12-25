@@ -7,7 +7,7 @@
 
 typedef struct MenuItem
 {
-    char title[40];
+    char title[61];
     struct MenuItem *next;
 } MENUITEM;
 

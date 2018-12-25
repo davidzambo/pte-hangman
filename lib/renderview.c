@@ -39,8 +39,8 @@ void renderView(MENUITEM *menuItem)
                     }
                 }
                 else {
-                    if (i > 5) {
-                        if (j > WINDOW_WIDTH / 4 && isMenuItemPrintedInLine == 0 && menuItem != NULL) {
+                    if (i > 2) {
+                        if (j > WINDOW_WIDTH / 8 && isMenuItemPrintedInLine == 0 && menuItem != NULL) {
                             printf("%s", menuItem->title);
                             j += strlen(menuItem->title);
                             isMenuItemPrintedInLine = 1;

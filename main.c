@@ -16,8 +16,11 @@ int playAGame(char *word, char *letterGuesses, unsigned int countOfFails)
     int lengthOfWord = (int) strlen(word),
         countOfLetterGuesses = (int) strlen(letterGuesses),
         i = 0,
+        j = 0,
         isInWord = 0,
-        isLetterInAlreadyGuessedLetters = 0;
+        isLetterInAlreadyGuessedLetters = 0,
+        isWordFoundOut = 1,
+        isValidGuess = 1;
     char thisGuess;
 
     MENUITEM *menu = renderHang(countOfFails);
@@ -27,67 +30,175 @@ int playAGame(char *word, char *letterGuesses, unsigned int countOfFails)
     while (last->next != NULL) {
         last = last->next;
     }
+    // only for testing:
     last->next = createMenuItem(word);
+    last = last->next;
+    last->next = createMenuItem(" ");
+    last = last->next;
+    // END only for testing
 
     /*
-     * If we have already guessed letters, let show it to the user
+     * create the word we will show to the user
      */
-    if (countOfLetterGuesses > 0) {
-        last = last->next;
-        last->next = createMenuItem(" ");
-        last = last->next;
-        last->next = createMenuItem("Already guessed letters: ");
-        last = last->next;
-        char letterList[40];
-        for (i = 0; i < countOfLetterGuesses; i++) {
-            letterList[2*i] = letterGuesses[i];
-            /*
-             * A list last element doesn't followed by ','
-             */
-            if (i < countOfLetterGuesses - 1) {
-                letterList[2*i + 1] = ',';
-            }
-        }
-        letterList[2*i-1] = '\0';
-        last->next = createMenuItem(letterList);
-    }
+    char wordToShow[lengthOfWord*2];
 
-    renderView(first);
-//    getchar();
-//    thisGuess = (char) getchar();
-    scanf(" %1s[^\n]", &thisGuess);
-//    getchar();
-
-    /*
-     * Check, if actual guess is a char, that has been already tipped
-     * before, and it was a successful tip
-     */
-    for (i = 0; i < countOfLetterGuesses; i++) {
-        if (thisGuess == letterGuesses[i]) {
-            isLetterInAlreadyGuessedLetters = 1;
-            break;
-        }
-    }
-
-    if (isLetterInAlreadyGuessedLetters == 0) {
-        letterGuesses = (char *) realloc(letterGuesses, (countOfLetterGuesses + 2) * sizeof(char));
-        letterGuesses[countOfLetterGuesses] = thisGuess;
-        letterGuesses[countOfLetterGuesses + 1] = '\0';
-
-        for (i = 0; i < lengthOfWord; i++) {
-            if (thisGuess == word[i]) {
+    for (i = 0; i < lengthOfWord; i++) {
+        isInWord = 0;
+        /*
+         * Check, that the given character has already been guessed
+         * If yes, show it, else render a '_' char
+         */
+        for (j = 0; j < countOfLetterGuesses; j++) {
+            if (word[i] == letterGuesses[j]) {
                 isInWord = 1;
                 break;
             }
         }
 
-        if (isInWord == 0) {
-            countOfFails++;
+        if (isInWord == 1) {
+            wordToShow[2 * i] = word[i];
+        } else {
+            /*
+             * Take care of special characters not
+             * to hide out.
+             */
+            switch (word[i]) {
+                case ' ':
+                    wordToShow[2*i] = ' ';
+                    break;
+                case '\'':
+                    wordToShow[2*i] = '\'';
+                    break;
+                case '-':
+                    wordToShow[2*i] = '-';
+                    break;
+                default:
+                    wordToShow[2 * i] = '_';
+                    if (isWordFoundOut == 1) {
+                        isWordFoundOut = 0;
+                    }
+            }
+        }
+        /*
+         * Draw a separator
+         */
+        wordToShow[2 * i + 1] = ' ';
+    }
+    /*
+     * Close the string
+     */
+    wordToShow[2*i -1] = '\0';
+    
+    /*
+     * Prepare word to centrelized
+     */
+    char wordToShowCentralized[VIEW_WIDTH];
+
+    /*
+     * Fill up the new string with ' ' until we reach
+     * the middle of the screen - the length of word
+     */
+    for (i = 0; i < ((VIEW_WIDTH - lengthOfWord * 2) / 2); i++) {
+        wordToShowCentralized[i] = ' ';
+    }
+
+    /*
+     * Copy the word that we want to show to the end
+     * of the space filled new word
+     */
+    strcat(wordToShowCentralized, wordToShow);
+    last->next = createMenuItem(wordToShowCentralized);
+
+    /*
+     * If we have already guessed letters, let's show it
+     * to the user
+     */
+    if (countOfLetterGuesses > 0) {
+        last = last->next;
+        last->next = createMenuItem(" ");
+        last = last->next;
+
+        /*
+         * Check if the user found out the word
+         */
+        if (isWordFoundOut == 1) {
+            last->next = createMenuItem("                CONGRATULATIONS! YOU WIN!!!");
+        } else {
+            char letterList[VIEW_WIDTH] = " ";
+            strcat(letterList, "PREVIOUS GUESSES:  ");
+
+            /*
+             * strlen("PREVIOUS GUESSES: ") = 18
+             */
+            for (i = 0; i < countOfLetterGuesses; i++) {
+                letterList[2*i + 19] = letterGuesses[i];
+                /*
+                 * A list last element doesn't followed by ','
+                 */
+                if (i < countOfLetterGuesses - 1) {
+                    letterList[2*i + 19 + 1] = ',';
+                } else {
+                    letterList[2*i + 19 + 1] = '\0';
+                }
+            }
+            letterList[2*i-1 + 19] = '\0';
+            last->next = createMenuItem(letterList);
         }
     }
 
-    if (countOfFails == 11) {
-        return 0;
+    renderView(first);
+    /*
+     * Get the actual guess in this round
+     */
+    scanf(" %1s[^\n]", &thisGuess);
+
+    /*
+     * lowerize the guess
+     */
+    if (thisGuess >= 'A' && thisGuess <= 'Z') {
+        thisGuess += 32;
+    }
+
+    if (thisGuess < 'a' || thisGuess > 'z') {
+        printf("\nOnly letters are accepted!\nPlease press <ENTER> !");
+        isValidGuess = 0;
+        getchar();
+        getchar();
+    }
+
+    if (isValidGuess == 1)
+    {
+        /*
+     * Check, if actual guess is a char, that has been already tipped
+     * before, and it was a successful tip
+     */
+        for (i = 0; i < countOfLetterGuesses; i++) {
+            if (thisGuess == letterGuesses[i]) {
+                isLetterInAlreadyGuessedLetters = 1;
+                break;
+            }
+        }
+
+        if (isLetterInAlreadyGuessedLetters == 0) {
+            letterGuesses = (char *) realloc(letterGuesses, (countOfLetterGuesses + 2) * sizeof(char));
+            letterGuesses[countOfLetterGuesses] = thisGuess;
+            letterGuesses[countOfLetterGuesses + 1] = '\0';
+
+            for (i = 0; i < lengthOfWord; i++) {
+                if (thisGuess == word[i]) {
+                    isInWord = 1;
+                    break;
+                }
+            }
+
+            if (isInWord == 0) {
+                countOfFails++;
+            }
+        }
+
+        if (countOfFails == 11) {
+            return 0;
+        }
     }
 
     playAGame(word, letterGuesses, countOfFails);
@@ -166,29 +277,9 @@ int main(int argCounter, char** args)
     menu = menu->next;
     menu->next = createMenuItem(" ");
     menu = menu->next;
-    menu->next = createMenuItem("SELECT AN ACTION AND PRESS <ENTER>!");
+    menu->next = createMenuItem("SELECT AN ACTION AND PRESS <ENTER> !");
 
-    MENUITEM *this = renderHang(0);
-    renderView(this);
-    this = renderHang(1);
-    renderView(this);
-    this = renderHang(2);
-    renderView(this);
-    this = renderHang(3);
-    renderView(this);
-    this = renderHang(4);
-    renderView(this);
-    this = renderHang(5);
-    renderView(this);
-    this = renderHang(6);
-    renderView(this);
-    this = renderHang(7);
-    renderView(this);
-    this = renderHang(8);
-    renderView(this);
-    this = renderHang(9);
-    renderView(this);
-    this = renderHang(10);
+    MENUITEM *this = first;
 
     while(1) {
         renderView(this);

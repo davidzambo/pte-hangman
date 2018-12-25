@@ -4,10 +4,11 @@
 
 #ifndef HANGMAN_MENUITEM_H
 #define HANGMAN_MENUITEM_H
+#define VIEW_WIDTH 60
 
 typedef struct MenuItem
 {
-    char title[61];
+    char title[VIEW_WIDTH + 1];
     struct MenuItem *next;
 } MENUITEM;
 

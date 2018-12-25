@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-MENUITEM *createMenuItem(char item[60])
+MENUITEM *createMenuItem(char item[VIEW_WIDTH])
 {
     MENUITEM *current = (MENUITEM *)malloc(sizeof(MENUITEM));
     strcpy(current->title, item);

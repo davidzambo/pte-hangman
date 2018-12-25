@@ -71,6 +71,7 @@ char *selectAWordFromCategory(char category, WORD **words, int length) {
             Store them in a pointer array and determine the number of
             available options.
         */
+        //printf("\nDATA %s | %s", words[i]->category, words[i]->content);
         if (strcmp((char *) categories[category - 49], (char *) words[i]->category) == 0) {
             counter++;
             categoryWords = (WORD **) realloc(categoryWords, counter * sizeof(WORD*));

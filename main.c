@@ -31,10 +31,10 @@ int playAGame(char *word, char *letterGuesses, unsigned int countOfFails)
         last = last->next;
     }
     // only for testing:
-    last->next = createMenuItem(word);
-    last = last->next;
-    last->next = createMenuItem(" ");
-    last = last->next;
+//    last->next = createMenuItem(word);
+//    last = last->next;
+//    last->next = createMenuItem(" ");
+//    last = last->next;
     // END only for testing
 
     /*
@@ -49,7 +49,10 @@ int playAGame(char *word, char *letterGuesses, unsigned int countOfFails)
          * If yes, show it, else render a '_' char
          */
         for (j = 0; j < countOfLetterGuesses; j++) {
-            if (word[i] == letterGuesses[j]) {
+            /*
+             * Check both uppercase and lowercase letters
+             */
+            if (word[i] == letterGuesses[j] || (word[i] + 32) == letterGuesses[j]) {
                 isInWord = 1;
                 break;
             }
@@ -80,14 +83,14 @@ int playAGame(char *word, char *letterGuesses, unsigned int countOfFails)
             }
         }
         /*
-         * Draw a separator
+         * Draw a separator between characters
          */
         wordToShow[2 * i + 1] = ' ';
     }
     /*
      * Close the string
      */
-    wordToShow[2*i -1] = '\0';
+    wordToShow[2 * i - 1] = '\0';
     
     /*
      * Prepare word to centrelized
@@ -101,6 +104,7 @@ int playAGame(char *word, char *letterGuesses, unsigned int countOfFails)
     for (i = 0; i < ((VIEW_WIDTH - lengthOfWord * 2) / 2); i++) {
         wordToShowCentralized[i] = ' ';
     }
+    wordToShowCentralized[i] = '\0';
 
     /*
      * Copy the word that we want to show to the end
@@ -122,10 +126,13 @@ int playAGame(char *word, char *letterGuesses, unsigned int countOfFails)
          * Check if the user found out the word
          */
         if (isWordFoundOut == 1) {
-            last->next = createMenuItem("                CONGRATULATIONS! YOU WIN!!!");
+            last->next = createMenuItem("                Congratulations! You win!"); last = last->next;
+            last->next = createMenuItem("              Press <ENTER> to play again!");
+        } else if (countOfFails == 11) {
+            last->next = createMenuItem("              Press <ENTER> to play again!");
         } else {
             char letterList[VIEW_WIDTH] = " ";
-            strcat(letterList, "PREVIOUS GUESSES:  ");
+            strcat(letterList, "Previous guesses:  ");
 
             /*
              * strlen("PREVIOUS GUESSES: ") = 18
@@ -147,10 +154,17 @@ int playAGame(char *word, char *letterGuesses, unsigned int countOfFails)
     }
 
     renderView(first);
-    /*
-     * Get the actual guess in this round
-     */
-    scanf(" %1s[^\n]", &thisGuess);
+
+    if (isWordFoundOut == 1 || countOfFails == 10) {
+        getchar();
+        getchar();
+        return 0;
+    } else {
+        /*
+         * Get the actual guess in this round
+         */
+        scanf(" %1s[^\n]", &thisGuess);
+    }
 
     /*
      * lowerize the guess
@@ -263,21 +277,21 @@ int main(int argCounter, char** args)
     MENUITEM *first = menu;
     menu->next = createMenuItem(" ");
     menu = menu->next;
-    menu->next = createMenuItem("1. PLAY");
+    menu->next = createMenuItem("1. Play");
     menu = menu->next;
-    menu->next = createMenuItem("2. SAVE A NEW WORD ");
+    menu->next = createMenuItem("2. Save a new word ");
     menu = menu->next;
-    menu->next = createMenuItem("3. VIEW CREDITS ");
-    menu = menu->next;
-    menu->next = createMenuItem(" ");
-    menu = menu->next;
-    menu->next = createMenuItem("<ESC> EXIT ");
+    menu->next = createMenuItem("3. View credits ");
     menu = menu->next;
     menu->next = createMenuItem(" ");
     menu = menu->next;
+    menu->next = createMenuItem("<ESC> Exit ");
+    menu = menu->next;
     menu->next = createMenuItem(" ");
     menu = menu->next;
-    menu->next = createMenuItem("SELECT AN ACTION AND PRESS <ENTER> !");
+    menu->next = createMenuItem(" ");
+    menu = menu->next;
+    menu->next = createMenuItem("Select an action and press <ENTER> !");
 
     MENUITEM *this = first;
 

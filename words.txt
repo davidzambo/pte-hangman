@@ -8,38 +8,38 @@ animal	elephant
 animal	bird
 animal	fish
 animal	lion
-car alfa romeo
-car volkswagen
-car fiat
-car volvo
-car bmw
-car mercedes
-car ford
-car honda
-car crysler
-car trabant
+car	alfa romeo
+car	volkswagen
+car	fiat
+car	volvo
+car	bmw
+car	mercedes
+car	ford
+car	honda
+car	crysler
+car	trabant
 city	Pecs
 city	Budapest
 city	Miskolc
-city    San Francisco
-city    New York
-city    Zurich
-city    Amsterdam
-city    London
-city    Paris
-city    Rome
-country Hungary
-country United States of America
-country Switzerland
-country England
-country France
-country New-Zealand
-country Italy
-country China
-country Netherland
-country Australia
-profession  teacher
-profession  web developer
-profession  broker
-profession  gardener
-profession  architect
+city	San Francisco
+city	New York
+city	Zurich
+city	Amsterdam
+city	London
+city	Paris
+city	Rome
+country	Hungary
+country	United States of America
+country	Switzerland
+country	England
+country	France
+country	New-Zealand
+country	Italy
+country	China
+country	Netherland
+country	Australia
+profession	teacher
+profession	web developer
+profession	broker
+profession	gardener
+profession	architect

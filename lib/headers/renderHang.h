@@ -6,6 +6,6 @@
 #define HANGMAN_RENDERHANG_H
 #include "../stucts/menuitem.h"
 
-MENUITEM *renderHang(int stage);
+MENUITEM *renderHang(char *category, int stage);
 
 #endif //HANGMAN_RENDERHANG_H

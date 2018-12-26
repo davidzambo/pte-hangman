@@ -43,3 +43,11 @@ profession	web developer
 profession	broker
 profession	gardener
 profession	architect
+animal	duck
+city	Los Angeles
+animal	horse
+city	Oslo
+profession	designer
+profession	professor
+profession	artist
+profession	mechanic

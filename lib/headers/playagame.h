@@ -8,6 +8,6 @@
 #include "selectcategory.h"
 #include "renderHang.h"
 
-int playAGame(char *word, char *letterGuesses, unsigned int countOfFails);
+int playAGame(char *category, char *word, char *letterGuesses, unsigned int countOfFails);
 
 #endif //HANGMAN_PLAYAGAME_H

@@ -4,12 +4,32 @@
 
 #include "headers/renderHang.h"
 #include "headers/createmenuitem.h"
+#include <string.h>
 
-MENUITEM *renderHang(int stage)
+MENUITEM *renderHang(char *category, int stage)
 {
-    int i = 0;
+    int i = 0,
+        lengthOfCategory = (int) strlen(category),
+        beginningOfCategory = (VIEW_WIDTH - lengthOfCategory) / 2 - 2;
+
+    char localCategory[lengthOfCategory];
+    strcpy(localCategory, category);
+    localCategory[lengthOfCategory] = ' ';
+    char title[VIEW_WIDTH];
+
+    for (i = 0; i < VIEW_WIDTH; i++) {
+        if ((i < beginningOfCategory) || (i > beginningOfCategory + lengthOfCategory + 1)) {
+            title[i] = '=';
+        } else if ((i == beginningOfCategory ) || (i == beginningOfCategory + lengthOfCategory + 2)) {
+            title[i] = ' ';
+        } else {
+            title[i] = localCategory[i - beginningOfCategory - 1];
+        }
+    }
+    title[i] = '\0';
+
     MENUITEM *menu;
-    menu = createMenuItem("========================= HANGMAN =========================");
+    menu = createMenuItem(title);
     MENUITEM *first = menu;
 
     switch (stage) {

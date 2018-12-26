@@ -4,7 +4,7 @@
 
 #include "headers/playagame.h"
 
-int playAGame(char *word, char *letterGuesses, unsigned int countOfFails)
+int playAGame(char *category, char *word, char *letterGuesses, unsigned int countOfFails)
 {
     int lengthOfWord = (int) strlen(word),
             countOfLetterGuesses = (int) strlen(letterGuesses),
@@ -14,10 +14,9 @@ int playAGame(char *word, char *letterGuesses, unsigned int countOfFails)
             isLetterInAlreadyGuessedLetters = 0,
             isWordFoundOut = 1,
             isValidGuess = 1;
-    char thisGuess,
-            inputBuffer = '\0';
+    char thisGuess;
 
-    MENUITEM *menu = renderHang(countOfFails);
+    MENUITEM *menu = renderHang(category, countOfFails);
     MENUITEM *first = menu;
     MENUITEM *last = menu;
 
@@ -150,7 +149,7 @@ int playAGame(char *word, char *letterGuesses, unsigned int countOfFails)
     renderView(first);
 
     if (isWordFoundOut == 1 || countOfFails == 10) {
-        while((inputBuffer = getchar() != '\n'));
+        while(getchar() != '\n');
         return 0;
     } else {
         /*
@@ -161,7 +160,7 @@ int playAGame(char *word, char *letterGuesses, unsigned int countOfFails)
          * read all entered characters and do nothing with them
          * Only the first entered character is valueable.
          */
-        while((inputBuffer = getchar() != '\n'));
+        while(getchar() != '\n');
 
     }
 
@@ -211,5 +210,5 @@ int playAGame(char *word, char *letterGuesses, unsigned int countOfFails)
 
     }
 
-    playAGame(word, letterGuesses, countOfFails);
+    playAGame(category, word, letterGuesses, countOfFails);
 }

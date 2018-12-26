@@ -4,6 +4,9 @@
 
 #include "headers/categories.h"
 
+/**
+ * Predefined word categories
+ */
 char *categories[33] = {
         "animal",
         "car",

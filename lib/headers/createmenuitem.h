@@ -4,7 +4,7 @@
 
 #ifndef HANGMAN_CREATEMENUITEM_H
 #define HANGMAN_CREATEMENUITEM_H
-#include "menuitem.h"
+#include "../stucts/menuitem.h"
 
 MENUITEM *createMenuItem(char item[32]);
 

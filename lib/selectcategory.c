@@ -12,7 +12,7 @@
 char selectCategory()
 {
     int i = 0;
-    char categoryName[40], action = '\0';
+    char categoryName[40], action = '\0', inputBuffer = '\0';
 
     system("clear");
 
@@ -21,6 +21,11 @@ char selectCategory()
     MENUITEM *first = menu;
     menu->next = createMenuItem(" ");
 
+    /*
+     * Prepare a string from categories like
+     * 1. animal
+     * etc.
+     */
     for (i = 0; i < COUNT_OF_CATEGORIES; i++) {
 
         categoryName[0] = (char)(i + 49);
@@ -34,19 +39,21 @@ char selectCategory()
     menu = menu->next;
     menu->next = createMenuItem(" ");
     menu = menu->next;
-    menu->next = createMenuItem("<ESC> STEP BACK TO MAIN MENU");
+    menu->next = createMenuItem("<b> Step back to main menu");
     menu = menu->next;
     menu->next = createMenuItem(" ");
     menu = menu->next;
     menu->next = createMenuItem(" ");
     menu = menu->next;
-    menu->next = createMenuItem("SELECT AN ACTION AND PRESS <ENTER>!");
+    menu->next = createMenuItem("Select an action and press <ENTER> !");
 
-    while (!((int)action == 10 || (action >= '1' && action <= (char)(COUNT_OF_CATEGORIES + 48)))) {
+    while (!(action == 'b' || (action >= '1' && action <= (char)(COUNT_OF_CATEGORIES + 48)))) {
+        /*
+         * Show the choises
+         */
         renderView(first);
-
-        getchar();
-        action = getchar();
+        action = (char) getchar();
+        while((inputBuffer = getchar() != '\n'));
     }
 
     return action;

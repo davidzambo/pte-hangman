@@ -6,6 +6,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+/**
+ * Create a MENUITEM linked list element
+ *
+ * @param item
+ * @return
+ */
 MENUITEM *createMenuItem(char item[VIEW_WIDTH])
 {
     MENUITEM *current = (MENUITEM *)malloc(sizeof(MENUITEM));

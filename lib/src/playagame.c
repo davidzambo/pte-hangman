@@ -57,9 +57,6 @@ int playAGame(char *category, char *word, char *letterGuesses, unsigned int coun
          * If the user failed, show the full word
          */
         if (isInWord == 1 || countOfFails == 10) {
-            if (countOfFails == 10) {
-                isWordFoundOut = 0;
-            }
             wordToShow[2 * i] = word[i];
         } else {
             /*
@@ -126,10 +123,10 @@ int playAGame(char *category, char *word, char *letterGuesses, unsigned int coun
         /*
          * Check if the user found out the word
          */
-        if (isWordFoundOut == 1) {
-            last->next = createMenuItem("                Congratulations! You win!"); last = last->next;
+        if (countOfFails == 10) {
             last->next = createMenuItem("              Press <ENTER> to play again!");
-        } else if (countOfFails == 10) {
+        } else if (isWordFoundOut == 1) {
+            last->next = createMenuItem("                Congratulations! You win!"); last = last->next;
             last->next = createMenuItem("              Press <ENTER> to play again!");
         } else {
             char letterList[VIEW_WIDTH] = " ";
@@ -218,6 +215,5 @@ int playAGame(char *category, char *word, char *letterGuesses, unsigned int coun
 
     }
 
-    printf("countOfFails: %d", countOfFails);
     playAGame(category, word, letterGuesses, countOfFails);
 }

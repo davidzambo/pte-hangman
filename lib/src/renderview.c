@@ -15,7 +15,7 @@
 void renderView(MENUITEM *menuItem)
 {
     int i = 0, j = 0, isMenuItemPrintedInLine = 0;
-    system("clear");
+    system("@cls||clear");
     for (i = 0; i < WINDOW_HEIGHT; i++) {
         isMenuItemPrintedInLine = 0;
         for (j = 0; j < WINDOW_WIDTH; j++) {

@@ -5,10 +5,10 @@
 #ifndef HANGMAN_SELECTCATEGORY_H
 #define HANGMAN_SELECTCATEGORY_H
 #include "categories.h"
-#include "../stucts/menuitem.h"
+#include "../structs/menuitem.h"
 #include "createmenuitem.h"
 #include "renderview.h"
-#include "../stucts/word.h"
+#include "../structs/word.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>

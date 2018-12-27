@@ -14,8 +14,6 @@ char selectCategory()
     int i = 0;
     char categoryName[40], action = '\0';
 
-    system("clear");
-
     MENUITEM *menu = createMenuItem("==================== SELECT A CATEGORY ====================");
 
     MENUITEM *first = menu;

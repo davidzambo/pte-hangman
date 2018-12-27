@@ -8,6 +8,30 @@
 #include <stdio.h>
 #include <string.h>
 
+void showSuccessFeedback(WORD *newWord)
+{
+    char wordMessage[VIEW_WIDTH] = "",
+            categoryMessage[VIEW_WIDTH] = "";
+    strcat(wordMessage, "The word \"");
+    strcat(wordMessage, newWord->content);
+    strcat(wordMessage, "\" successfully saved to");
+    strcat(categoryMessage, "the \"");
+    strcat(categoryMessage, newWord->category);
+    strcat(categoryMessage, "\" category!");
+
+    MENUITEM *menu;
+    menu = createMenuItem("====================== ADD NEW WORD =======================");
+    MENUITEM *first = menu;
+    menu->next = createMenuItem(" "); menu = menu->next;
+    menu->next = createMenuItem(wordMessage); menu = menu->next;
+    menu->next = createMenuItem(categoryMessage); menu = menu->next;
+    menu->next = createMenuItem(" "); menu = menu->next;
+    menu->next = createMenuItem("Press <ENTER> to go back!"); menu = menu->next;
+
+    renderView(first);
+    while(getchar() != '\n');
+}
+
 int storeANewWord(char *category, char *newWord, char *filename)
 {
     char title[VIEW_WIDTH] = "",
@@ -56,6 +80,12 @@ int storeANewWord(char *category, char *newWord, char *filename)
 
         menu->next = createMenuItem(message);
 
+        if (db == NULL) {
+            menu = menu->next;
+            menu->next = createMenuItem(" "); menu = menu->next;
+            menu->next = createMenuItem("Press <ENTER> to go back!");
+        }
+
         renderView(first);
 
         fgets(newWord, 100, stdin);
@@ -65,10 +95,10 @@ int storeANewWord(char *category, char *newWord, char *filename)
         }
 
         lengthOfNewWord = (unsigned int) strlen(newWord);
+
         /*
          * Remove \n from the end of the newWord
          */
-
         newWord[lengthOfNewWord - 1] = '\0';
 
         /*
@@ -77,9 +107,9 @@ int storeANewWord(char *category, char *newWord, char *filename)
          */
         if (isValidWord == 0) isValidWord = 1;
 
-        if (lengthOfNewWord == 1 && (newWord[0] == 'b' || newWord[0] == 'B')) {
+        if (lengthOfNewWord == 2 && (newWord[0] == 'b' || newWord[0] == 'B')) {
             fclose(db);
-            return 0;
+            return 1;
         }
 
         if (lengthOfNewWord > 32) {

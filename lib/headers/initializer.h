@@ -4,7 +4,7 @@
 
 #ifndef HANGMAN_INITIALIZER_H
 #define HANGMAN_INITIALIZER_H
-#include "../stucts/word.h"
+#include "../structs/word.h"
 #include <stdio.h>
 
 unsigned int initializer(FILE *db, WORD **wordList);

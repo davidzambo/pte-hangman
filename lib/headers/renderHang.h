@@ -4,7 +4,7 @@
 
 #ifndef HANGMAN_RENDERHANG_H
 #define HANGMAN_RENDERHANG_H
-#include "../stucts/menuitem.h"
+#include "../structs/menuitem.h"
 
 MENUITEM *renderHang(char *category, int stage);
 

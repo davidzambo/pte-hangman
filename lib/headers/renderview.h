@@ -4,7 +4,7 @@
 
 #ifndef HANGMAN_RENDERVIEW_H
 #define HANGMAN_RENDERVIEW_H
-#include "../stucts/menuitem.h"
+#include "../structs/menuitem.h"
 
 void renderView(MENUITEM *menuItem);
 

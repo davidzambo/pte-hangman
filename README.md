@@ -121,3 +121,9 @@ section!
 You can comment out any records from the *words.txt* file
 (or any text file you use to play with) by starting the line
 with a '#' mark.
+
+###### Note2:
+
+If the look of the program falls apart, try to set the encoding 
+of you console to IBM850 and/or set the minimum width to 80 chars
+and minimum height to 24 chars!

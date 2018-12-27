@@ -32,7 +32,7 @@ void showSuccessFeedback(WORD *newWord)
     while(getchar() != '\n');
 }
 
-int storeANewWord(char *category, char *newWord, char *filename)
+int storeANewWord(char *category, char *newWord, char *filename, WORD **wordList, int length)
 {
     char title[VIEW_WIDTH] = "",
             message[VIEW_WIDTH] = "";
@@ -151,7 +151,20 @@ int storeANewWord(char *category, char *newWord, char *filename)
             }
         }
 
+        /*
+         * checks, that if the new word is already on the list
+         */
+        if (isValidWord == 1) {
+           for (i = 0; i < length; i++) {
+               if (strcasecmp(newWord, wordList[i]->content) == 0) {
+                   isValidWord = 0;
+                   strcpy(message, "Error! The given word is already stored in the word list!");
+               }
+           }
+        }
+
     } while (isValidWord == 0);
+
 
     /*
      * If everything is fine, write it to the file

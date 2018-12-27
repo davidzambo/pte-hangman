@@ -11,6 +11,21 @@ If you find out the word, you will win, otherwise you will loose and you will be
 
 You can create a new category and add new words.
 
+###### Compile:
+
+As the program comes with a CMakeFile.txt, you should simply enter
+```
+cmake .
+```
+which will generates you a Makefile. When your Makefile is ready, enter
+
+```
+make
+```
+
+which will generate you a executable binary file.
+
+
 ###### Usage:
 After you have compiled the code, you should enter to terminal:
 

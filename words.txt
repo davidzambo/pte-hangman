@@ -51,3 +51,5 @@ profession	designer
 profession	professor
 profession	artist
 profession	mechanic
+city	Sao Paolo
+profession	butcher

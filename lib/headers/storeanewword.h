@@ -8,6 +8,6 @@
 
 void showSuccessFeedback(WORD *newWord);
 
-int storeANewWord(char *category, char *newWord, char *filename);
+int storeANewWord(char *category, char *newWord, char *filename, WORD **wordList, int length);
 
 #endif //HANGMAN_STOREANEWWORD_H

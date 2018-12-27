@@ -24,12 +24,12 @@ int main(int argCounter, char** args)
     char tmp[1000];
 
     if (argCounter < 3) {
-        printf("Error!\nWord list not found!\n\nusage: hangman.exe -f words.txt");
+        printf("Error!\nWord list not found!\n\nusage: hangman.exe -f words.txt OR \n\t./hangman -f words.txt\n");
         return 1;
     }
 
     if (strcmp(args[1],"-f") != 0) {
-        printf("Error!\nWord list not found!\n\nusage: hangman.exe -f words.txt\n");
+        printf("Error!\nWord list not found!\n\nusage: hangman.exe -f words.txt OR \n\t./hangman -f words.txt\n");
         return 1;
     }
 
@@ -143,7 +143,7 @@ int main(int argCounter, char** args)
                      * integer value of it, then get the nth element of the
                      * categories array
                      */
-                    result = storeANewWord(categoryName, newWord, args[2]);
+                    result = storeANewWord(categoryName, newWord, args[2], wordList, length);
 
                     if (result == 0) {
                         length++;
@@ -153,6 +153,7 @@ int main(int argCounter, char** args)
                         strcpy(wordList[length - 1]->category, categoryName);
                         strcpy(wordList[length - 1]->content, newWord);
                         showSuccessFeedback(wordList[length - 1]);
+                        action = '\0';
                     }
                 }
                 break;
@@ -161,7 +162,7 @@ int main(int argCounter, char** args)
                 action = '\0';
                 break;
             case 'q':
-                printf("\nExit...\n");
+                printf("Exit...\n");
                 return 0;
             default:
                 if (lengthAfterInitialization < length) {

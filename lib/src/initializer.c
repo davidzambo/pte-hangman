@@ -7,8 +7,8 @@
 		- Reads the categories
 		- Reads the words
 */
-#include "headers/categories.h"
-#include "headers/initializer.h"
+#include "../headers/categories.h"
+#include "../headers/initializer.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

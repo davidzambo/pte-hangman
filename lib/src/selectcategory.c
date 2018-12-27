@@ -2,7 +2,7 @@
 // Created by zdavid on 23/12/18.
 //
 
-#include "headers/selectcategory.h"
+#include "../headers/selectcategory.h"
 
 /**
  * Prepare the category selection menu list

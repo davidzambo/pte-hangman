@@ -2,7 +2,7 @@
 // Created by zdavid on 26/12/18.
 //
 
-#include "headers/playagame.h"
+#include "../headers/playagame.h"
 
 int playAGame(char *category, char *word, char *letterGuesses, unsigned int countOfFails)
 {
@@ -24,11 +24,13 @@ int playAGame(char *category, char *word, char *letterGuesses, unsigned int coun
         last = last->next;
     }
     // only for testing:
-//    last->next = createMenuItem(word);
-//    last = last->next;
-//    last->next = createMenuItem(" ");
-//    last = last->next;
-    // END only for testing
+    /*
+    last->next = createMenuItem(word);
+    last = last->next;
+    last->next = createMenuItem(" ");
+    last = last->next;
+    */
+
 
     /*
      * create the word we will show to the user
@@ -51,7 +53,13 @@ int playAGame(char *category, char *word, char *letterGuesses, unsigned int coun
             }
         }
 
-        if (isInWord == 1) {
+        /*
+         * If the user failed, show the full word
+         */
+        if (isInWord == 1 || countOfFails == 10) {
+            if (countOfFails == 10) {
+                isWordFoundOut = 0;
+            }
             wordToShow[2 * i] = word[i];
         } else {
             /*
@@ -121,7 +129,7 @@ int playAGame(char *category, char *word, char *letterGuesses, unsigned int coun
         if (isWordFoundOut == 1) {
             last->next = createMenuItem("                Congratulations! You win!"); last = last->next;
             last->next = createMenuItem("              Press <ENTER> to play again!");
-        } else if (countOfFails == 11) {
+        } else if (countOfFails == 10) {
             last->next = createMenuItem("              Press <ENTER> to play again!");
         } else {
             char letterList[VIEW_WIDTH] = " ";
@@ -210,5 +218,6 @@ int playAGame(char *category, char *word, char *letterGuesses, unsigned int coun
 
     }
 
+    printf("countOfFails: %d", countOfFails);
     playAGame(category, word, letterGuesses, countOfFails);
 }

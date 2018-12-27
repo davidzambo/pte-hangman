@@ -2,9 +2,9 @@
 // Created by zdavid on 26/12/18.
 //
 
-#include "headers/showcredits.h"
-#include "headers/createmenuitem.h"
-#include "headers/renderview.h"
+#include "../headers/showcredits.h"
+#include "../headers/createmenuitem.h"
+#include "../headers/renderview.h"
 #include <stdio.h>
 
 void showCredits()

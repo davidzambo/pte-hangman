@@ -3,4 +3,4 @@ project(hangman C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(hangman main.c lib/categories.c lib/headers/categories.h lib/createmenuitem.c lib/headers/createmenuitem.h lib/stucts/menuitem.h lib/stucts/word.h lib/initializer.c lib/headers/initializer.h lib/renderview.c lib/headers/renderview.h lib/selectcategory.c lib/headers/selectcategory.h lib/renderHang.c lib/headers/renderHang.h lib/playagame.c lib/headers/playagame.h lib/showcredits.c lib/headers/showcredits.h)
+add_executable(hangman main.c lib/src/categories.c lib/headers/categories.h lib/src/createmenuitem.c lib/headers/createmenuitem.h lib/stucts/menuitem.h lib/stucts/word.h lib/src/initializer.c lib/headers/initializer.h lib/src/renderview.c lib/headers/renderview.h lib/src/selectcategory.c lib/headers/selectcategory.h lib/src/renderHang.c lib/headers/renderHang.h lib/src/playagame.c lib/headers/playagame.h lib/src/showcredits.c lib/headers/showcredits.h lib/src/storeanewword.c lib/headers/storeanewword.h)

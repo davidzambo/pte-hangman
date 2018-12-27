@@ -2,7 +2,7 @@
 // Created by zdavid on 23/12/18.
 //
 
-#include "headers/categories.h"
+#include "../headers/categories.h"
 
 /**
  * Predefined word categories

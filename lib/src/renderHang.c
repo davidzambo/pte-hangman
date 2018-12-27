@@ -2,8 +2,8 @@
 // Created by zdavid on 24/12/18.
 //
 
-#include "headers/renderHang.h"
-#include "headers/createmenuitem.h"
+#include "../headers/renderHang.h"
+#include "../headers/createmenuitem.h"
 #include <string.h>
 
 MENUITEM *renderHang(char *category, int stage)

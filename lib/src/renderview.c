@@ -7,7 +7,7 @@
 */
 #define WINDOW_WIDTH 80
 #define WINDOW_HEIGHT 24
-#include "headers/renderview.h"
+#include "../headers/renderview.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
